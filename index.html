@@ -3,17 +3,82 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Task List</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>To-Do List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    #taskInput {
+      width: 300px;
+      padding: 8px;
+    }
+
+    #addButton {
+      padding: 8px 12px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin-top: 10px;
+    }
+
+    .remove-btn {
+      margin-left: 10px;
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Task List</h1>
-    <input type="text" id="taskInput" placeholder="Enter a task" />
-    <button id="addButton">Add Task</button>
-    <ul id="taskList"></ul>
-  </div>
 
-  <script src="script.js"></script>
+  <h1>To-Do List</h1>
+
+  <input type="text" id="taskInput" placeholder="Enter a task" />
+  <button id="addButton">Add Task</button>
+
+  <ul id="taskList"></ul>
+
+  <script>
+    const taskInput = document.getElementById('taskInput');
+    const addButton = document.getElementById('addButton');
+    const taskList = document.getElementById('taskList');
+
+    function addTask() {
+      const taskText = taskInput.value.trim();
+      if (taskText !== '') {
+        const li = document.createElement('li');
+        li.textContent = taskText;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'Remove';
+        removeBtn.className = 'remove-btn';
+
+        removeBtn.onclick = () => {
+          taskList.removeChild(li);
+        };
+
+        li.appendChild(removeBtn);
+        taskList.appendChild(li);
+        taskInput.value = '';
+      }
+    }
+
+    addButton.addEventListener('click', addTask);
+
+    taskInput.addEventListener('keypress', (event) => {
+      if (event.key === 'Enter') {
+        addTask();
+      }
+    });
+  </script>
 </body>
 </html>
